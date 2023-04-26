@@ -1,12 +1,14 @@
 CC = g++
 SRC = src/*.cpp
-APP_NAME = app.exe
-INC = -Iinclude
-LIB = -Llib-mingw-w64
-TAG = -lopengl32 -lglfw3 -lgdi32 -lglew32
+OBJ = *.o
+INC = -Iinclude -Iheaders
+LIB = -Llib-mingw-w64 -Lbin
+TAG = -lmingw32 -lopengl32 -lglfw3 -lgdi32 -lglew32 -lglu32
+OUT = bin/libarsenic.dll
+DLL = -shared -Wl,-rpath='$$ORIGIN'
 
 windows:
 	@echo --== COMPILING ARSENIC ==--
-	g++ -o $(APP_NAME) $(SRC) $(INC) $(LIB) $(TAG)
-	@echo --== RUNNING ARSENIC ==--
-	@$(APP_NAME)   
+	$(CC) $(DLL) $(INC) -c $(SRC)
+	$(CC) $(DLL) -o $(OUT) $(OBJ) $(LIB) $(TAG)
+	del $(OBJ)
